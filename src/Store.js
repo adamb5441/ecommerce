@@ -19,10 +19,10 @@ class Store extends Component {
             })
         })
     }
-    addToCart(id){
-        console.log(id);
+    addToCart(ref){
+        console.log(ref);
         let num = 1;
-        axios.post('/api/Cart/Create', {id, num}).then(res=>{
+        axios.post('/api/Cart/Create', {ref, num}).then(res=>{
             alert('added to cart')
         })
     }

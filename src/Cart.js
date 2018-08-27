@@ -39,10 +39,9 @@ export default class Cart extends Component {
             this.update()
         })
     }
-    updateCart(id){
-
+    updateCart(ref){
         let num=this.state.userIn;
-        axios.put('/api/Cart/update', {num,id}).then(res=>{
+        axios.put('/api/Cart/update', {num,ref}).then(res=>{
             this.update()
         })
     }
@@ -52,6 +51,7 @@ export default class Cart extends Component {
         for(let i =0; i< this.state.products.length; i++)
         {
             const { img,item, price,cart_id,numberof} = this.state.products[i]
+            
             items.push(
             <div>
             <Display 
@@ -61,9 +61,9 @@ export default class Cart extends Component {
                 key={cart_id}
 
             />
-            <p>quantity:
-            <input style={{width: '3vh'}} value={numberof} onChange={e=>this.input(e.target.value)}></input>
-            </p>
+            <p>quantity: {numberof}</p>
+            <input onChange={e=>this.input(e.target.value)} style={{width: '5vh'}}  />
+            
             <button onClick={()=>this.updateCart(cart_id)}>update</button>
             <button onClick={()=>this.deleteFromCart(cart_id)}>Delete</button>
             </div>

@@ -8,10 +8,10 @@ module.exports={
         })
     },
     createCart: (req,res,next)=>{
-        const {id,num} =req.body
+        const {ref,num} =req.body
         const dbInstance= req.app.get('db')
-
-        dbInstance.getCartRef([id]).then(data=>{
+        const {id} =req.session.users 
+        dbInstance.getCartRef([ref,id]).then(data=>{
             console.log(req.session.users)  
         if(data[0]){ 
                 const {id} =req.session.users             
@@ -24,7 +24,7 @@ module.exports={
             
         }else {  
             const {id} =req.session.users      
-            dbInstance.createCart([num,req.id,id])
+            dbInstance.createCart([ref,num,id])
             .then(data => res.status(200).send(data))
     }
     })
@@ -45,16 +45,17 @@ module.exports={
         .then(data => res.status(200).send(data))
     },
     checkOut:(req,res,next)=>{
+        const {id} =req.session.users 
         const dbInstance=req.app.get('db');
-        dbInstance.checkOut()
+        dbInstance.checkOut([id])
         .then( data => {
             res.status(200).send(data)
         })
     },
     updateCart:(req,res,next)=>{
-        const {num,id} =req.body
+        const {num,ref} =req.body
         const dbInstance= req.app.get('db')
-        dbInstance.updateCart([num,id])
+        dbInstance.updateCart([num,ref,id])
         .then(data => res.status(200).send(data))
     }
 
