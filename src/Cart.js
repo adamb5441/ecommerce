@@ -61,8 +61,9 @@ export default class Cart extends Component {
                 key={cart_id}
 
             />
-            <p>quantity: {numberof}</p>
-            <input onChange={e=>this.input(e.target.value)}></input>
+            <p>quantity:
+            <input style={{width: '3vh'}} value={numberof} onChange={e=>this.input(e.target.value)}></input>
+            </p>
             <button onClick={()=>this.updateCart(cart_id)}>update</button>
             <button onClick={()=>this.deleteFromCart(cart_id)}>Delete</button>
             </div>
@@ -80,7 +81,7 @@ export default class Cart extends Component {
   render() {
     return (
         <div>
-            I am the cart
+            <Link to='/Login/'>Login</Link>
             <Link to='/'>App</Link>
             <button onClick={()=> this.checkOut()}>checkout</button>
             {this.getProducts()}

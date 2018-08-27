@@ -1,8 +1,11 @@
 INSERT INTO cart(
     reference,
-    numberof
+    numberof,
+    profile_num
 )
 VALUES(
     $1,
-    $2
+    $2,
+    $3
 )
+RETURNING *;

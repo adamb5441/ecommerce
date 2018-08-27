@@ -51,6 +51,7 @@ class Store extends Component {
   render() {
     return (
       <div >
+          <Link to='/Login/'>Login</Link>
           <Link to='/Cart/'>Cart</Link>
       {this.getProducts()}
       
