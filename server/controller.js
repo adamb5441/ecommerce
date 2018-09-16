@@ -55,7 +55,7 @@ module.exports={
     updateCart:(req,res,next)=>{
         const {num,ref} =req.body
         const dbInstance= req.app.get('db')
-        dbInstance.updateCart([num,ref,id])
+        dbInstance.updateCart([num,ref])
         .then(data => res.status(200).send(data))
     }
 

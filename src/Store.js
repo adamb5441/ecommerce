@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './App.css';
+import { Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom'
 import  Router  from './Router';
-import Display from './ProductDisplayer'
 import axios from 'axios'
 class Store extends Component {
     constructor(){
@@ -33,16 +36,17 @@ class Store extends Component {
         {
             const { img,item, price,id} = this.state.products[i]
             items.push(
-            <div>
-            <Display 
-                img={img}
-                item={item}
-                price={price}
-                key={id}
+        
+            <Card className="col-sm-3 card" style={{margin: '20px', padding: 'auto'}}>
+                <CardImg top width="100%" src={img} alt="Card image cap" style={{height: '20vh'}}/>
+                <CardBody>
+                <CardTitle>{item}</CardTitle>
+                <CardText>${price}</CardText>
+                <Button color="primary" onClick={()=>this.addToCart(id)}>add</Button>
+                </CardBody>
+            </Card>
+            
 
-            />
-            <button onClick={()=>this.addToCart(id)}>add</button>
-            </div>
         )
 
         }
@@ -50,11 +54,20 @@ class Store extends Component {
     }
   render() {
     return (
-      <div >
-          <Link to='/Login/'>Login</Link>
-          <Link to='/Cart/'>Cart</Link>
-      {this.getProducts()}
-      
+        <div>
+        <Nav tabs>
+        <NavItem>
+            <NavLink href='http://localhost:3000/#/Login/'>Login</NavLink>
+        </NavItem>
+        <NavItem>
+            <NavLink href='http://localhost:3000/#/Cart/'>Cart</NavLink>
+        </NavItem>
+        </Nav>
+      <div className='container'>
+        <div className='row'> 
+            {this.getProducts()}
+        </div>
+      </div>
       </div>
     );
   }
