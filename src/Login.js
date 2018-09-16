@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
+import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink,NavbarBrand } from 'reactstrap';
 export default class Login extends Component {
     constructor(){
         super()
         this.state={
-            userIn: '',
-            passIn: ''
+            userIn: 'adam',
+            passIn: '1234'
 
         }
     }
@@ -37,6 +37,9 @@ export default class Login extends Component {
   render() {
     return (
         <div>
+            <Nav tabs className="navbar-light bg-primary" >
+                <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
+            </Nav>
             <Nav tabs>
                 <NavItem>
                     <NavLink href='http://localhost:3000/#/Form/'>Create account</NavLink>

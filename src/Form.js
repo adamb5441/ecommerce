@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import { Button, FormGroup, Label, Input, FormText } from 'reactstrap';
-import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
+import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink,NavbarBrand } from 'reactstrap';
 
 export default class Form extends Component {
     constructor(){
@@ -30,20 +30,22 @@ export default class Form extends Component {
         })} 
 
       createUser(){
-          console.log('function invocated')
+
+          
           const {userIn, passIn, emailIn} = this.state
-
-          axios.post('/api/newaccount', {userIn, passIn, emailIn}).then(res=>{
-            this.props.history.push('/')
-            
-          }).catch(error=>{
-            alert('username already exists')
+                axios.post('/api/newaccount', {userIn, passIn, emailIn}).then(res=>{
+                    this.props.history.push('/')
+                    
+                }).catch(error=>{
+                    alert('username already exists')
           })
-
       } 
   render() {
     return (
-        <div>
+        <div>   
+                <Nav tabs className="navbar-light bg-primary" >
+                    <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
+                </Nav>
               <Nav tabs>
                   <NavItem>
                       <NavLink href='http://localhost:3000/#/Login/'>Back</NavLink>
@@ -55,12 +57,12 @@ export default class Form extends Component {
         <div style={{display: 'flex',justifyContent: 'center'}}>
             <FormGroup style={{margin: '60px', width: '40vh',}}>
               <Label >username</Label >
-              <Input defaultValue='adam' onChange={e=>this.input(e.target.value)}></Input>
+              <Input onChange={e=>this.input(e.target.value)}></Input>
               <Label >password</Label >
-              <Input defaultValue='1234' onChange={e=>this.input2(e.target.value)}></Input>
+              <Input onChange={e=>this.input2(e.target.value)}></Input>
               <Label>Email</Label>
               <Input onChange={e=>this.input3(e.target.value)}></Input>
-              <Button color="primary" style={{margin: 10}} onClick={()=>this.login()}>Submit</Button>
+              <Button color="primary" style={{margin: 10}} onClick={()=>this.createUser()}>Submit</Button>
           </FormGroup>
         </div>
         </div>

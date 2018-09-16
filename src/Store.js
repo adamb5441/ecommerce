@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './App.css';
-import { Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Button } from 'reactstrap';
-import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
+import { Alert,Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink,NavbarBrand } from 'reactstrap';
 import { Link } from 'react-router-dom'
 import  Router  from './Router';
 import axios from 'axios'
@@ -11,7 +11,9 @@ class Store extends Component {
     constructor(){
         super()
         this.state={
-            products: []
+            products: [],
+            selected: [],
+            toggle: false
         }
     }
     componentDidMount(){
@@ -25,8 +27,16 @@ class Store extends Component {
     addToCart(ref){
         console.log(ref);
         let num = 1;
+        let obj = {ref,num}
+        this.setState({
+            selected: [...this.state.selected,obj]
+        })
+        let arr = this.state.selected.slice(0)
+        saveToLS("cart", arr);
         axios.post('/api/Cart/Create', {ref, num}).then(res=>{
-            alert('added to cart')
+            this.setState({
+                confirm: true
+            })
         })
     }
     getProducts(){
@@ -44,6 +54,9 @@ class Store extends Component {
                 <CardText>${price}</CardText>
                 <Button color="primary" onClick={()=>this.addToCart(id)}>add</Button>
                 </CardBody>
+                {/* <Alert color="success">
+                This is a success alert — check it out!
+                </Alert> */}
             </Card>
             
 
@@ -55,7 +68,10 @@ class Store extends Component {
   render() {
     return (
         <div>
-        <Nav tabs>
+        <Nav tabs className="navbar-light bg-primary" >
+            <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
+        </Nav>
+        <Nav tabs style={{backgroundColor: '007BFF', color: 'white'}}>
         <NavItem>
             <NavLink href='http://localhost:3000/#/Login/'>Login</NavLink>
         </NavItem>
@@ -63,8 +79,8 @@ class Store extends Component {
             <NavLink href='http://localhost:3000/#/Cart/'>Cart</NavLink>
         </NavItem>
         </Nav>
-      <div className='container'>
-        <div className='row'> 
+      <div className='container' >
+        <div className='row' style={{display: 'flex', justifyContent: 'center'}}> 
             {this.getProducts()}
         </div>
       </div>
@@ -72,5 +88,15 @@ class Store extends Component {
     );
   }
 }
+function saveToLS(key, value) {
+    if (global.localStorage) {
+      global.localStorage.setItem(
+        "rgl-8",
+        JSON.stringify({
+          [key]: value
+        })
+      );
+    }
+  }
 
 export default Store;
