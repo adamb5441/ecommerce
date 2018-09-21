@@ -7,10 +7,14 @@ import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, Nav
 import { Link } from 'react-router-dom'
 import  Router  from './Router';
 import axios from 'axios'
+const lscart = getFromLS("cart") || [];
+const login = getFromLS("confirm") || false;
 class Store extends Component {
     constructor(){
         super()
         this.state={
+            cart: JSON.parse(JSON.stringify(lscart)),
+            confirm: JSON.parse(JSON.stringify(login)),
             products: [],
             selected: [],
             toggle: false
@@ -25,19 +29,25 @@ class Store extends Component {
         })
     }
     addToCart(ref){
-        console.log(ref);
         let num = 1;
+        let check = false
+        axios.get("/api/checkSession").then(res=>{
+            check = res.data
+        })
+        if(check){
+            axios.post('/api/Cart/Create', {ref, num}).then(res=>{
+            this.setState({
+                confirm: true
+            })
+        })}
+        else {
+        console.log(ref);
         let obj = {ref,num}
         this.setState({
             selected: [...this.state.selected,obj]
         })
         let arr = this.state.selected.slice(0)
-        saveToLS("cart", arr);
-        axios.post('/api/Cart/Create', {ref, num}).then(res=>{
-            this.setState({
-                confirm: true
-            })
-        })
+        saveToLS("cart", arr);}
     }
     getProducts(){
         let items = [];
@@ -93,10 +103,21 @@ function saveToLS(key, value) {
       global.localStorage.setItem(
         "rgl-8",
         JSON.stringify({
-          [key]: value
+          [key]: value,
         })
       );
     }
+  }
+  function getFromLS(key) {
+    let ls = [];
+    if (global.localStorage) {
+      try {
+        ls = JSON.parse(global.localStorage.getItem("rgl-8")) || [];
+      } catch (e) {
+        console.log('failed cart')
+      }
+    }
+    return ls[key];
   }
 
 export default Store;

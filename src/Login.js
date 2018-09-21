@@ -27,7 +27,6 @@ export default class Login extends Component {
         const {userIn, passIn } = this.state
         console.log(userIn)
         axios.post('/api/Login', {userIn, passIn}).then(res=>{
-            alert('logged in')
             this.props.history.push('/')
         }).catch(error=>{
           alert('That password and username combination does not exist')
@@ -62,5 +61,6 @@ export default class Login extends Component {
     );
   }
 }
+
 
 

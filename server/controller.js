@@ -1,8 +1,14 @@
 module.exports={
-
+    checkSession:(req,res)=>{
+        if(req.session.user){
+            res.status(200).send(true)
+        } else{
+            res.status(200).send(false)
+        }
+    },
     getProducts:(req,res)=>{
         const dbInstance=req.app.get('db');
-        dbInstance.getProducts()
+        dbInstance.getProducts([])
         .then( data => {
             res.status(200).send(data)
         })

@@ -28,6 +28,7 @@ app.get('/api/Cart', controller.getCart)
 app.delete('/api/Cart/Delete/:id', controller.deleteFromCart)
 app.delete("/api/Cart/checkOut", controller.checkOut)
 app.put("/api/Cart/update", controller.updateCart)
+app.get("/api/checkSession", controller.checkSession)
 
 
 app.post('/api/newaccount', (req,res)=>{
