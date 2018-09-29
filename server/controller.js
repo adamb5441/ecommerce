@@ -1,6 +1,8 @@
 module.exports={
     checkSession:(req,res)=>{
-        if(req.session.user){
+        console.log('thiss is running')
+        if(req.session.users){
+            console.log('this should return true')
             res.status(200).send(true)
         } else{
             res.status(200).send(false)

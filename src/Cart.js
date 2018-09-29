@@ -16,26 +16,28 @@ export default class Cart extends Component {
             cart: JSON.parse(JSON.stringify(lscart)),
             confirm: JSON.parse(JSON.stringify(login)),
             userIn: 0,
-            toggle: 3
+            toggle: 2
         }
     }
     componentDidMount(){
-        console.log(this.state.confirm)
-        if(this.state.confirm){
-        axios.get('/api/Cart').then(res =>{
-            console.log(res)
+        var check = '';
+        axios.get('/api/checkSession').then(res=>{
+        
+        if(res.data){
+        axios.get('/api/Cart').then(results =>{
+            console.log(results)
             this.setState({
-                products: res.data,
+                products: results.data,
                 toggle: 1
             })
             return console.log('logged in')
         })
-        } else if(this.state.cart>0){
+        } else if(this.state.cart.length>0){
             console.log('local storage')
-            axios.get('/api/products').then(res=>{
-                console.log(res)
+            axios.get('/api/products').then(results=>{
+                console.log(results)
                 this.setState({
-                    productsLs: res.data,
+                    productsLs: results.data,
                     toggle: 2
                 })
             })
@@ -44,6 +46,7 @@ export default class Cart extends Component {
                 toggle: 3
             })
         }
+    }) 
     }
     update(){
         axios.get('/api/Cart').then(res =>{
@@ -102,7 +105,8 @@ export default class Cart extends Component {
         console.log(this.state.cart[0].ref)
         let items = [];
             for(let i =0; i< this.state.cart.length; i++){ 
-                const {ref,num}=this.state.cart[i] 
+                const {ref,num}=this.state.cart[i]
+                let count = 1 
                 for(let i =0; i< this.state.productsLs.length; i++)
                 {
                     const { img,item, price,id} = this.state.productsLs[i]
@@ -121,7 +125,9 @@ export default class Cart extends Component {
                     <Button style={{margin: '5px'}} color="primary" >Delete</Button>
                     </CardBody>
                 </Card>
-        )}
+        )
+        count++
+    }
     }
         }console.log(items)
         return items;
