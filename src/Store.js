@@ -30,26 +30,34 @@ class Store extends Component {
     }
     addToCart(ref){
         let num = 1;
-        let check = false
         axios.get("/api/checkSession").then(res=>{
-            check = res.data
-        })
+            let check = res.data
         if(check){
             axios.post('/api/Cart/Create', {ref, num}).then(res=>{
             this.setState({
                 confirm: true
             })
         })}
-        else {
-        console.log(ref);
+        else { 
         let obj = {ref,num}
+        let ind = this.state.selected.findIndex(val => val.ref == obj.ref)
+        console.log(ind)
+        if(ind>-1){
+            let arr = this.state.selected.slice(0)
+            let numberof=arr[ind].num;
+            arr[ind].num=numberof+1
+            saveToLS("cart", arr);
+        } else{
         this.setState({
             selected: [...this.state.selected,obj]
         })
         let arr = this.state.selected.slice(0)
-        saveToLS("cart", arr);}
+        saveToLS("cart", arr); 
     }
-    getProducts(){
+    }
+    })
+    }
+    getProducts(){ 
         let items = [];
 
         for(let i =0; i< this.state.products.length; i++)

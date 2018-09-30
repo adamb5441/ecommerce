@@ -16,7 +16,7 @@ export default class Cart extends Component {
             cart: JSON.parse(JSON.stringify(lscart)),
             confirm: JSON.parse(JSON.stringify(login)),
             userIn: 0,
-            toggle: 2
+            toggle: 3
         }
     }
     componentDidMount(){
@@ -106,7 +106,6 @@ export default class Cart extends Component {
         let items = [];
             for(let i =0; i< this.state.cart.length; i++){ 
                 const {ref,num}=this.state.cart[i]
-                let count = 1 
                 for(let i =0; i< this.state.productsLs.length; i++)
                 {
                     const { img,item, price,id} = this.state.productsLs[i]
@@ -126,7 +125,6 @@ export default class Cart extends Component {
                     </CardBody>
                 </Card>
         )
-        count++
     }
     }
         }console.log(items)
