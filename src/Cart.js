@@ -156,6 +156,10 @@ export default class Cart extends Component {
             alert('thank you for shopping')
             this.update()
         })
+        saveToLS("cart", [])
+        this.setState({
+            cart: []
+        })
     }
     deleteLs(id){
         let arr = this.state.cart.filter(val => val.ref != id)

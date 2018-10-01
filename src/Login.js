@@ -8,9 +8,16 @@ export default class Login extends Component {
         super()
         this.state={
             userIn: 'adam',
-            passIn: '1234'
-
+            passIn: '1234',
+            cart: []
         }
+    }
+    componentDidMount(){
+        axios.get('/api/checkSession').then(res=>{
+            this.setState({
+                cart: JSON.parse(JSON.stringify(getFromLS("cart")))
+            })
+        })
     }
     input(val){
         console.log(val)
@@ -27,11 +34,18 @@ export default class Login extends Component {
         const {userIn, passIn } = this.state
         console.log(userIn)
         axios.post('/api/Login', {userIn, passIn}).then(res=>{
-            this.props.history.push('/')
+            if(this.state.cart.length>0){
+                let array = this.state.cart.slice(0)
+                axios.post('/api/cart/reconcile', {array}).then(data=>{
+                    console.log('reconciled')
+                })
+            }
+            this.props.history.push('/')  
         }).catch(error=>{
           alert('That password and username combination does not exist')
         })
-    } 
+        saveToLS("cart", [])
+    }  
 
   render() {
     return (
@@ -61,6 +75,30 @@ export default class Login extends Component {
     );
   }
 }
+function getFromLS(key) {
+    let ls = [];
+    if (global.localStorage) {
+      try {
+        ls = JSON.parse(global.localStorage.getItem("rgl-8")) || [];
+      } catch (e) {
+        console.log('failed cart')
+      }
+    }
+    return ls[key];
+  }
+  
+  function saveToLS(key, value) {
+    if (global.localStorage) {
+      global.localStorage.setItem(
+        "rgl-8",
+        JSON.stringify({
+          [key]: value
+        })
+      );
+    }
+  }
+  
+
 
 
 
