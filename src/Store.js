@@ -16,7 +16,6 @@ class Store extends Component {
             cart: JSON.parse(JSON.stringify(lscart)),
             confirm: JSON.parse(JSON.stringify(login)),
             products: [],
-            selected: [],
             toggle: false
         }
     }
@@ -40,18 +39,21 @@ class Store extends Component {
         })}
         else { 
         let obj = {ref,num}
-        let ind = this.state.selected.findIndex(val => val.ref == obj.ref)
+        let ind = this.state.cart.findIndex(val => val.ref == ref)
         console.log(ind)
         if(ind>-1){
-            let arr = this.state.selected.slice(0)
+            let arr = this.state.cart.slice(0)
             let numberof=arr[ind].num;
             arr[ind].num=numberof+1
+            this.setState({
+                cart: [...arr]
+            })
             saveToLS("cart", arr);
         } else{
         this.setState({
-            selected: [...this.state.selected,obj]
+            cart: [...this.state.cart,obj]
         })
-        let arr = this.state.selected.slice(0)
+        let arr = this.state.cart.slice(0)
         saveToLS("cart", arr); 
     }
     }
