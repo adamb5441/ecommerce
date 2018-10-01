@@ -5,21 +5,50 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Button,Alert } from 'reactstrap';
 import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink,Input,NavbarBrand } from 'reactstrap';
-const lscart = getFromLS("cart") || [];
-const login = getFromLS("confirm") || false;
+// const lscart = getFromLS("cart") || [];
 export default class Cart extends Component {
     constructor(props){
         super(props)
         this.state={
             products: [],
             productsLs: [],
-            cart: JSON.parse(JSON.stringify(lscart)),
-            confirm: JSON.parse(JSON.stringify(login)),
+            cart: [],
             userIn: 0,
             toggle: 3
         }
     }
     componentDidMount(){
+        var check = '';
+        axios.get('/api/checkSession').then(res=>{
+            this.setState({
+                cart: JSON.parse(JSON.stringify(getFromLS("cart")))
+            })
+        if(res.data){
+        axios.get('/api/Cart').then(results =>{
+            console.log(results)
+            this.setState({
+                products: results.data,
+                toggle: 1
+            })
+            return console.log('logged in')
+        })
+        } else if(this.state.cart.length>0){
+            console.log('local storage')
+            axios.get('/api/products').then(results=>{
+                console.log(results)
+                this.setState({
+                    productsLs: results.data,
+                    toggle: 2
+                })
+            })
+        } else{
+            this.setState({
+                toggle: 3
+            })
+        }
+    }) 
+    }
+    update(){
         var check = '';
         axios.get('/api/checkSession').then(res=>{
         
@@ -47,14 +76,6 @@ export default class Cart extends Component {
             })
         }
     }) 
-    }
-    update(){
-        axios.get('/api/Cart').then(res =>{
-            console.log(res)
-            this.setState({
-                products: res.data
-            })
-        })
     }
     input(val){
         console.log(val)
@@ -141,7 +162,8 @@ export default class Cart extends Component {
         this.setState({
             cart: [...arr]
         })
-        saveToLS("cart", arr); 
+        saveToLS("cart", arr);
+        this.update()
     }
     updateLs(id){
         let numberof=this.state.userIn;
@@ -172,7 +194,7 @@ export default class Cart extends Component {
             <div className='row' style={{display: 'flex', justifyContent: 'center'}}> 
                 {this.state.toggle ==1 ?
                 this.getProducts() 
-                : this.state.toggle ==2 ?
+                : this.state.toggle ==2 && this.state.cart.length >0 ?
                 this.getLS() 
                 :
                 null
