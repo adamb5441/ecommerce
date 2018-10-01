@@ -120,8 +120,8 @@ export default class Cart extends Component {
                     <CardSubtitle col-sm-3>Quantity: </CardSubtitle>
                     <Input col-sm-3 defaultValue={num} onChange={e=>this.input(e.target.value)} style={{width: '8vh',}}/>
                     </div>
-                    <Button style={{margin: '5px'}} color="primary" >update</Button>
-                    <Button style={{margin: '5px'}} color="primary" >Delete</Button>
+                    <Button onClick={()=>this.updateLs(id)} style={{margin: '5px'}} color="primary" >update</Button>
+                    <Button onClick={() => this.deleteLs(id)} style={{margin: '5px'}} color="primary" >Delete</Button>
                     </CardBody>
                 </Card>
         )
@@ -135,6 +135,23 @@ export default class Cart extends Component {
             alert('thank you for shopping')
             this.update()
         })
+    }
+    deleteLs(id){
+        let arr = this.state.cart.filter(val => val.ref != id)
+        this.setState({
+            cart: [...arr]
+        })
+        saveToLS("cart", arr); 
+    }
+    updateLs(id){
+        let numberof=this.state.userIn;
+        let ind = this.state.cart.findIndex(val => val.ref == id)
+        let arr = this.state.cart.slice(0)
+        arr[ind].num=numberof
+        this.setState({
+            cart: [...arr]
+        })
+        saveToLS("cart", arr); 
     }
   render() {
     return (
