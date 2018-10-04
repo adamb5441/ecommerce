@@ -16,16 +16,32 @@ class Store extends Component {
             cart: JSON.parse(JSON.stringify(lscart)),
             confirm: JSON.parse(JSON.stringify(login)),
             products: [],
-            toggle: false
+            toggle: 0
         }
     }
     componentDidMount(){
+        axios.get('/api/checkSession').then(res=>{
+            if(res.data){
+            this.setState({
+                toggle: 1
+            })
+        }
+        })
         axios.get("/api/products").then(res =>{
             console.log(res)
             this.setState({
                 products: res.data
             })
         })
+    }
+    logout(){
+        axios.post('/api/logout').then(data =>{
+        this.setState({
+            toggle: 3,
+            cart:[]
+        })
+        alert('logged out')
+    })
     }
     addToCart(ref){
         let num = 1;
@@ -52,13 +68,13 @@ class Store extends Component {
         } else{
         this.setState({
             cart: [...this.state.cart,obj]
-        })
+        }) 
         let arr = this.state.cart.slice(0)
         saveToLS("cart", arr); 
     }
     }
     })
-    }
+    } 
     getProducts(){ 
         let items = [];
 
@@ -67,8 +83,8 @@ class Store extends Component {
             const { img,item, price,id} = this.state.products[i]
             items.push(
         
-            <Card className="col-sm-3 card" style={{margin: '20px', padding: 'auto'}}>
-                <CardImg top width="100%" src={img} alt="Card image cap" style={{height: '20vh'}}/>
+            <Card className="col-sm-3 card"  style={{margin: '20px', padding: '30px'}}>
+                <CardImg top width="100%" src={img} alt="Card image cap" style={{height: ''}}/>
                 <CardBody>
                 <CardTitle>{item}</CardTitle>
                 <CardText>${price}</CardText>
@@ -98,6 +114,12 @@ class Store extends Component {
         <NavItem>
             <NavLink href='http://localhost:3000/#/Cart/'>Cart</NavLink>
         </NavItem>
+        {
+        this.state.toggle == 1 ?
+        <Button color='primary' style={{marginLeft: 'auto',height: '100%'}} onClick={()=> this.logout()}>logout</Button>
+        : 
+        null
+        }
         </Nav>
       <div className='container' >
         <div className='row' style={{display: 'flex', justifyContent: 'center'}}> 

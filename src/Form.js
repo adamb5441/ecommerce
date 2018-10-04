@@ -10,8 +10,16 @@ export default class Form extends Component {
         this.state={
             userIn: '',
             passIn: '',
-            emailIn: ''
+            emailIn: '',
+            cart: []
         }
+    }
+    componentDidMount(){
+        axios.get('/api/checkSession').then(res=>{
+            this.setState({
+                cart: JSON.parse(JSON.stringify(getFromLS("cart")))
+            })
+        })
     }
     input(val){
         console.log(val)
@@ -30,12 +38,16 @@ export default class Form extends Component {
         })} 
 
       createUser(){
-
-          
-          const {userIn, passIn, emailIn} = this.state
+                const {userIn, passIn, emailIn} = this.state
                 axios.post('/api/newaccount', {userIn, passIn, emailIn}).then(res=>{
+                    if(this.state.cart.length>0){
+                        let array = this.state.cart.slice(0)
+                        axios.post('/api/cart/reconcile', {array}).then(data=>{
+                            console.log('reconciled')
+                        })
+                    }
                     this.props.history.push('/')
-                    
+                    saveToLS("cart", [])
                 }).catch(error=>{
                     alert('username already exists')
           })
@@ -69,5 +81,28 @@ export default class Form extends Component {
     );
   }
 }
+function getFromLS(key) {
+    let ls = [];
+    if (global.localStorage) {
+      try {
+        ls = JSON.parse(global.localStorage.getItem("rgl-8")) || [];
+      } catch (e) {
+        console.log('failed cart')
+      }
+    }
+    return ls[key];
+  }
+  
+  function saveToLS(key, value) {
+    if (global.localStorage) {
+      global.localStorage.setItem(
+        "rgl-8",
+        JSON.stringify({
+          [key]: value
+        })
+      );
+    }
+  }
+  
 
 

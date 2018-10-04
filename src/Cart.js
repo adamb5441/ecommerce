@@ -153,13 +153,13 @@ export default class Cart extends Component {
     }
     checkOut(){
         axios.delete("/api/Cart/checkOut").then(res=>{
-            alert('thank you for shopping')
             this.update()
         })
         saveToLS("cart", [])
         this.setState({
             cart: []
         })
+        alert('thank you for shopping')
     }
     deleteLs(id){
         let arr = this.state.cart.filter(val => val.ref != id)
@@ -179,6 +179,15 @@ export default class Cart extends Component {
         })
         saveToLS("cart", arr); 
     }
+    logout(){
+        axios.post('/api/logout').then(data =>{
+        this.setState({
+            toggle: 3,
+            cart:[]
+        })
+        alert('logged out')
+    })
+    }
   render() {
     return (
         <div>
@@ -193,6 +202,12 @@ export default class Cart extends Component {
             <NavLink href='http://localhost:3000/#/'>Home</NavLink>
         </NavItem>
         <Button color='primary' style={{marginLeft: 'auto',height: '100%'}} onClick={()=> this.checkOut()}>checkout</Button>
+        {
+        this.state.toggle == 1 ?
+        <Button color='primary' style={{height: '100%'}} onClick={()=> this.logout()}>logout</Button>
+        : 
+        null
+        }
         </Nav>
         <div className='container'>
             <div className='row' style={{display: 'flex', justifyContent: 'center'}}> 

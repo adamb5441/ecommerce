@@ -48,6 +48,11 @@ app.post('/api/newaccount', (req,res)=>{
     }
 })
 })
+app.post('/api/logout',(req,res)=>{
+    const {session} =req
+    session.destroy()
+    res.status(200).send('good')
+})
 app.post('/api/Login',(req,res,next)=>{
         const {userIn,passIn} = req.body
         const dbInstance=req.app.get('db');
