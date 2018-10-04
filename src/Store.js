@@ -3,23 +3,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './App.css';
 import { Alert,Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Button } from 'reactstrap';
-import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink,NavbarBrand } from 'reactstrap';
+import { Jumbotron,Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink,NavbarBrand } from 'reactstrap';
 import { Link } from 'react-router-dom'
 import  Router  from './Router';
 import axios from 'axios'
-const lscart = getFromLS("cart") || [];
-const login = getFromLS("confirm") || false;
 class Store extends Component {
     constructor(){
         super()
         this.state={
-            cart: JSON.parse(JSON.stringify(lscart)),
-            confirm: JSON.parse(JSON.stringify(login)),
+            cart: [],
             products: [],
-            toggle: 0
+            toggle: 0,
+            toggleView: false,
+            index: -1
         }
     }
     componentDidMount(){
+        this.setState({
+            cart: JSON.parse(JSON.stringify(getFromLS("cart")))
+        })
         axios.get('/api/checkSession').then(res=>{
             if(res.data){
             this.setState({
@@ -44,6 +46,7 @@ class Store extends Component {
     })
     }
     addToCart(ref){
+        console.log(ref)
         let num = 1;
         axios.get("/api/checkSession").then(res=>{
             let check = res.data
@@ -84,15 +87,14 @@ class Store extends Component {
             items.push(
         
             <Card className="col-sm-3 card"  style={{margin: '20px', padding: '30px'}}>
-                <CardImg top width="100%" src={img} alt="Card image cap" style={{height: ''}}/>
+                <div>
+                <CardImg onClick={()=>this.setproduct(i)} className="info"top width="100%" src={img} alt="Card image cap" style={{height: ''}}/>
                 <CardBody>
                 <CardTitle>{item}</CardTitle>
                 <CardText>${price}</CardText>
-                <Button color="primary" onClick={()=>this.addToCart(id)}>add</Button>
+                <Button color="primary" onClick={()=>this.addToCart(id)}>add to cart</Button>
                 </CardBody>
-                {/* <Alert color="success">
-                This is a success alert — check it out!
-                </Alert> */}
+                </div>
             </Card>
             
 
@@ -101,33 +103,85 @@ class Store extends Component {
         }
         return items;
     }
+    setproduct(i){
+        if(i>=0)
+        {
+            this.setState({
+            index: i,
+            toggleView: true})
+        } else{
+            this.setState({
+                index: -1,
+                toggleView: false})
+        }
+
+    }
+    view(){ 
+            const { img,item, price,id} = this.state.products[this.state.index]
+            return(
+            <Jumbotron style={{backgroundColor: 'white', width: '100%'}}>
+            <div >
+                    <img src={img} style={{width: '25vh'}}/>
+                    <p>
+                        {item}
+                    </p>
+                    <p>
+                        ${price}
+                    </p>
+
+            </div>
+            <hr className="my-2" />
+                <p className="lead">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                <p className="lead">
+                <Button color="primary" onClick={()=>this.addToCart(id)}>add to cart</Button>
+                </p>
+                <Button onClick={()=>this.setproduct(-1)} color="primary" style={{float: 'left'}}>back</Button>
+            </Jumbotron>
+            
+
+        )
+        
+    }
   render() {
     return (
-        <div>
-        <Nav tabs className="navbar-light bg-primary" >
-            <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
-        </Nav>
-        <Nav tabs style={{backgroundColor: '007BFF', color: 'white'}}>
-        <NavItem>
-            <NavLink href='http://localhost:3000/#/Login/'>Login</NavLink>
-        </NavItem>
-        <NavItem>
-            <NavLink href='http://localhost:3000/#/Cart/'>Cart</NavLink>
-        </NavItem>
-        {
-        this.state.toggle == 1 ?
-        <Button color='primary' style={{marginLeft: 'auto',height: '100%'}} onClick={()=> this.logout()}>logout</Button>
-        : 
-        null
-        }
-        </Nav>
-      <div className='container' >
-        <div className='row' style={{display: 'flex', justifyContent: 'center'}}> 
-            {this.getProducts()}
+        <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
+            <div>
+                <Nav tabs className="navbar-light bg-primary" >
+                    <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
+                </Nav>
+                <Nav tabs style={{backgroundColor: '007BFF', color: 'white'}}>
+                <NavItem>
+                    <NavLink href='http://localhost:3000/#/Login/'>Login</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink href='http://localhost:3000/#/Cart/'>Cart</NavLink>
+                </NavItem>
+                {
+                this.state.toggle == 1 ?
+                <Button color='primary' style={{marginLeft: 'auto',height: '100%'}} onClick={()=> this.logout()}>logout</Button>
+                : 
+                null
+                }
+                </Nav>
+
+                {
+                this.state.toggleView ?
+                <div className='container' >
+                     <div className='row' style={{display: 'flex', justifyContent: 'center'}}> 
+                            {this.view()}
+                     </div>
+                </div>
+                :
+                <div className='container' style={{backgroundColor: '#eaeded'}}>
+                    <div className='row' style={{display: 'flex', justifyContent: 'center'}}> 
+                        {this.getProducts()}
+                    </div>
+                </div>
+                }
         </div>
+        <footer style={{height: '30px',marginTop: 'auto',position: 'abo' , backgroundColor: '#007bff', color: 'WHITE'}}>website by Adam</footer>
       </div>
-      </div>
-    );
+    );            
   }
 }
 function saveToLS(key, value) {

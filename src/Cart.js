@@ -103,19 +103,21 @@ export default class Cart extends Component {
             const { img,item, price,cart_id,numberof} = this.state.products[i]
             
             items.push(
-                <Card className="col-sm-3 card container" style={{margin: '20px',width: '40vh'}}>
-                    <CardImg top width="100%" src={img} alt="Card image cap" style={{height: '20vh'}}/>
-                    <CardBody>
-                    <CardTitle>Card title</CardTitle>
-                    <CardSubtitle>{item}</CardSubtitle>
-                    <CardText>${price}</CardText>
-                    <div className='row' style={{ display: 'flex',alignItems: 'center',justifyContent: 'center'}}>
-                    <CardSubtitle col-sm-3>Quantity: </CardSubtitle>
-                    <Input col-sm-3 defaultValue={numberof} onChange={e=>this.input(e.target.value)} style={{width: '8vh',}}/>
+                <Card className="col-sm-3 card " style={{margin: '20px', padding: '30px'}}>
+                    <div>
+                        <CardImg src={img} alt="Card image cap" />
+                        <CardBody>
+                        <CardTitle>Card title</CardTitle>
+                        <CardSubtitle>{item}</CardSubtitle>
+                        <CardText>${price}</CardText>
+                        <div className='row' style={{ display: 'flex',alignItems: 'center',justifyContent: 'center'}}>
+                        <CardSubtitle col-sm-3>Quantity: </CardSubtitle>
+                        <Input col-sm-3 defaultValue={numberof} onChange={e=>this.input(e.target.value)} style={{width: '8vh',}}/>
+                        </div>
+                        <Button style={{margin: '5px'}} color="primary" onClick={()=>this.updateCart(cart_id)}>update</Button>
+                        <Button style={{margin: '5px'}} color="primary" onClick={()=>this.deleteFromCart(cart_id)}>Delete</Button>
+                        </CardBody>
                     </div>
-                    <Button style={{margin: '5px'}} color="primary" onClick={()=>this.updateCart(cart_id)}>update</Button>
-                    <Button style={{margin: '5px'}} color="primary" onClick={()=>this.deleteFromCart(cart_id)}>Delete</Button>
-                    </CardBody>
                 </Card>
         )
 
@@ -132,8 +134,8 @@ export default class Cart extends Component {
                     const { img,item, price,id} = this.state.productsLs[i]
                 if(ref===id){
                 items.push(
-                <Card className="col-sm-3 card container" style={{margin: '20px',width: '40vh'}}>
-                    <CardImg top width="100%" src={img} alt="Card image cap" style={{height: '20vh'}}/>
+                <Card className="col-sm-3 card container" style={{margin: '20px',padding: '30px'}}>
+                    <CardImg top width="100%" src={img} alt="Card image cap" />
                     <CardBody>
                     <CardSubtitle>{item}</CardSubtitle>
                     <CardText>${price}</CardText>
@@ -190,7 +192,7 @@ export default class Cart extends Component {
     }
   render() {
     return (
-        <div>
+        <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
         <Nav tabs className="navbar-light bg-primary" >
             <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
         </Nav>
@@ -220,7 +222,7 @@ export default class Cart extends Component {
                 }
             </div>
         </div>
-
+        <footer style={{height: '30px',marginTop: 'auto',position: 'abo' , backgroundColor: '#007bff', color: 'WHITE'}}>website by Adam</footer>
       </div>
     );
   }
