@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import { Button, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, FormGroup, Label, Input, FormText, Alert } from 'reactstrap';
 import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink,NavbarBrand } from 'reactstrap';
 
 export default class Form extends Component {
@@ -11,7 +11,8 @@ export default class Form extends Component {
             userIn: '',
             passIn: '',
             emailIn: '',
-            cart: []
+            cart: [],
+            alertToggle: false
         }
     }
     componentDidMount(){
@@ -49,12 +50,27 @@ export default class Form extends Component {
                     this.props.history.push('/')
                     saveToLS("cart", [])
                 }).catch(error=>{
-                    alert('username already exists')
+                    this.invokeAlert('username already exists')
           })
-      } 
+      }
+      invokeAlert(str){
+        this.setState({
+            alertInfo: str,
+            alertToggle: true
+        })
+        setTimeout(()=>this.setState({alertToggle: false}),3000)
+    } 
   render() {
     return (
         <div>   
+                {
+                this.state.alertToggle ?
+                <Alert color="danger" style={{position: 'fixed', marginBottom: 'auto', width: '100%', zIndex: '6', transition: '.25s'}}>
+                {this.state.alertInfo}
+                </Alert>
+                :
+                null
+                }
                 <Nav tabs className="navbar-light bg-primary" >
                     <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
                 </Nav>

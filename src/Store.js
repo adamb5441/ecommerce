@@ -15,7 +15,9 @@ class Store extends Component {
             products: [],
             toggle: 0,
             toggleView: false,
-            index: -1
+            index: -1,
+            alertToggle: false,
+            alertInfo: ""
         }
     }
     componentDidMount(){
@@ -42,7 +44,7 @@ class Store extends Component {
             toggle: 3,
             cart:[]
         })
-        alert('logged out')
+        this.invokeAlert('logged out')
     })
     }
     addToCart(ref){
@@ -77,6 +79,7 @@ class Store extends Component {
     }
     }
     })
+    this.invokeAlert("The item has been added to you cart")
     } 
     getProducts(){ 
         let items = [];
@@ -142,9 +145,24 @@ class Store extends Component {
         )
         
     }
+    invokeAlert(str){
+        this.setState({
+            alertInfo: str,
+            alertToggle: true
+        })
+        setTimeout(()=>this.setState({alertToggle: false}),3000)
+    }
   render() {
     return (
         <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
+                {
+                this.state.alertToggle ?
+                <Alert color="success" style={{position: 'fixed', marginBottom: 'auto', width: '100%', zIndex: '6', transition: '.25s'}}>
+                    {this.state.alertInfo}
+                </Alert>
+                :
+                null
+                }
             <div>
                 <Nav tabs className="navbar-light bg-primary" >
                     <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
@@ -163,7 +181,6 @@ class Store extends Component {
                 null
                 }
                 </Nav>
-
                 {
                 this.state.toggleView ?
                 <div className='container' >

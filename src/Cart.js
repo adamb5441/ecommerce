@@ -14,7 +14,8 @@ export default class Cart extends Component {
             productsLs: [],
             cart: [],
             userIn: 0,
-            toggle: 3
+            toggle: 3,
+            alertToggle: false,
         }
     }
     componentDidMount(){
@@ -161,7 +162,14 @@ export default class Cart extends Component {
         this.setState({
             cart: []
         })
-        alert('thank you for shopping')
+        this.invokeAlert('Thank you for shopping')
+    }
+    invokeAlert(str){
+        this.setState({
+            alertInfo: str,
+            alertToggle: true
+        })
+        setTimeout(()=>this.setState({alertToggle: false}),3000)
     }
     deleteLs(id){
         let arr = this.state.cart.filter(val => val.ref != id)
@@ -187,12 +195,20 @@ export default class Cart extends Component {
             toggle: 3,
             cart:[]
         })
-        alert('logged out')
+        this.invokeAlert('logged out')
     })
     }
   render() {
     return (
         <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
+        {
+        this.state.alertToggle ?
+        <Alert color="success" style={{position: 'fixed', marginBottom: 'auto', width: '100%', zIndex: '6', transition: '.25s'}}>
+        {this.state.alertInfo}
+        </Alert>
+        :
+        null
+        }
         <Nav tabs className="navbar-light bg-primary" >
             <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
         </Nav>
