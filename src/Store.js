@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './App.css';
-import { Alert,Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Alert,Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Button, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { Jumbotron,Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink,NavbarBrand } from 'reactstrap';
 import { Link } from 'react-router-dom'
 import  Router  from './Router';
@@ -17,7 +17,8 @@ class Store extends Component {
             toggleView: false,
             index: -1,
             alertToggle: false,
-            alertInfo: ""
+            alertInfo: "",
+            renderSet: 1
         }
     }
     componentDidMount(){
@@ -83,13 +84,16 @@ class Store extends Component {
     } 
     getProducts(){ 
         let items = [];
-
-        for(let i =0; i< this.state.products.length; i++)
+        let multiplier = this.state.renderSet
+        let end = 12 * multiplier
+        let start = end-12
+        console.log( end)
+        for(let i =start; i< this.state.products.length && i<end ; i++)
         {
             const { img,item, price,id} = this.state.products[i]
             items.push(
         
-            <Card className="col-sm-3 card"  style={{margin: '20px', padding: '30px'}}>
+            <Card className="col-sm-3 card"  style={{margin: '20px', padding: '30px', boxShadow: '1px .5px .5px #d1d3d3'}}>
                 <div>
                 <CardImg onClick={()=>this.setproduct(i)} className="info"top width="100%" src={img} alt="Card image cap" style={{height: ''}}/>
                 <CardBody>
@@ -106,6 +110,7 @@ class Store extends Component {
         }
         return items;
     }
+    
     setproduct(i){
         if(i>=0)
         {
@@ -128,7 +133,7 @@ class Store extends Component {
                     <p>
                         {item}
                     </p>
-                    <p>
+                    <p> 
                         ${price}
                     </p>
 
@@ -164,7 +169,8 @@ class Store extends Component {
                 null
                 }
             <div>
-                <Nav tabs className="navbar-light bg-primary" >
+                <Nav tabs className="navbar-light bg-primary" style={{padding: '1px'}}>
+                    <img src='https://danielpaulmarshall.files.wordpress.com/2017/05/keyboard-warrior.png' style={{height: '40px'}}/>
                     <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
                 </Nav>
                 <Nav tabs style={{backgroundColor: '007BFF', color: 'white'}}>
@@ -196,6 +202,18 @@ class Store extends Component {
                 </div>
                 }
         </div>
+            <Pagination style={{display: 'flex', justifyContent: 'center'}} aria-label="Page navigation example">
+            <PaginationItem>
+            <PaginationLink onClick={()=> this.setState({renderSet: 1})}>
+                1
+            </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+            <PaginationLink onClick={()=> this.setState({renderSet: 2})}>
+                2
+            </PaginationLink>
+            </PaginationItem>
+        </Pagination>
         <footer style={{height: '30px',marginTop: 'auto',position: 'abo' , backgroundColor: '#007bff', color: 'WHITE'}}>website by Adam</footer>
       </div>
     );            

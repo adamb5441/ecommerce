@@ -209,7 +209,8 @@ export default class Cart extends Component {
         :
         null
         }
-        <Nav tabs className="navbar-light bg-primary" >
+        <Nav tabs className="navbar-light bg-primary" style={{padding: '1px'}}>
+        <img src='https://danielpaulmarshall.files.wordpress.com/2017/05/keyboard-warrior.png' style={{height: '40px'}}/>
             <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
         </Nav>
         <Nav tabs style={{backgroundColor: '007BFF', color: 'white'}}>
