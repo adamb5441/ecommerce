@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './App.css';
 import { Alert,Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Button, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import { Jumbotron,Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink,NavbarBrand } from 'reactstrap';
+import { Jumbotron,Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink,NavbarBrand, InputGroup, InputGroupText, InputGroupAddon, Input } from 'reactstrap';
 import { Link } from 'react-router-dom'
 import  Router  from './Router';
 import axios from 'axios'
@@ -87,7 +87,6 @@ class Store extends Component {
         let multiplier = this.state.renderSet
         let end = 12 * multiplier
         let start = end-12
-        console.log( end)
         for(let i =start; i< this.state.products.length && i<end ; i++)
         {
             const { img,item, price,id} = this.state.products[i]
@@ -110,7 +109,7 @@ class Store extends Component {
         }
         return items;
     }
-    
+
     setproduct(i){
         if(i>=0)
         {
@@ -157,6 +156,19 @@ class Store extends Component {
         })
         setTimeout(()=>this.setState({alertToggle: false}),3000)
     }
+    getNavigator(){
+    let count =Math.ceil(this.state.products.length /12)
+    console.log(count)
+    let output = []
+    for(let i=0;i<count;i++){
+    output.push(<PaginationItem>
+    <PaginationLink onClick={()=> this.setState({renderSet: i+1})}>
+        {i+1}
+    </PaginationLink>
+    </PaginationItem>)
+    }
+    return output
+}
   render() {
     return (
         <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
@@ -169,7 +181,7 @@ class Store extends Component {
                 null
                 }
             <div>
-                <Nav tabs className="navbar-light bg-primary" style={{padding: '1px'}}>
+                <Nav tabs className="navbar-light bg-primary " style={{padding: '2px' }}>
                     <img src='https://danielpaulmarshall.files.wordpress.com/2017/05/keyboard-warrior.png' style={{height: '40px'}}/>
                     <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
                 </Nav>
@@ -179,7 +191,15 @@ class Store extends Component {
                 </NavItem>
                 <NavItem>
                     <NavLink href='http://localhost:3000/#/Cart/'>Cart</NavLink>
-                </NavItem>
+                </NavItem>\
+                <div>
+                    <InputGroup>
+                    <Input placeholder="search products" />
+                        <InputGroupAddon addonType="append">
+                            <Button color='primary'>search</Button>
+                        </InputGroupAddon>
+                    </InputGroup>
+                </div>
                 {
                 this.state.toggle == 1 ?
                 <Button color='primary' style={{marginLeft: 'auto',height: '100%'}} onClick={()=> this.logout()}>logout</Button>
@@ -202,17 +222,8 @@ class Store extends Component {
                 </div>
                 }
         </div>
-            <Pagination style={{display: 'flex', justifyContent: 'center'}} aria-label="Page navigation example">
-            <PaginationItem>
-            <PaginationLink onClick={()=> this.setState({renderSet: 1})}>
-                1
-            </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-            <PaginationLink onClick={()=> this.setState({renderSet: 2})}>
-                2
-            </PaginationLink>
-            </PaginationItem>
+        <Pagination style={{display: 'flex', justifyContent: 'center'}} aria-label="Page navigation example">
+                {this.getNavigator()}
         </Pagination>
         <footer style={{height: '30px',marginTop: 'auto',position: 'abo' , backgroundColor: '#007bff', color: 'WHITE'}}>website by Adam</footer>
       </div>
