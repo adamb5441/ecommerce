@@ -21,7 +21,8 @@ class Store extends Component {
             renderSet: 1,
             searchVal: '',
             baseProducts: [],
-            dropdownOpen: false
+            dropdownOpen: false,
+            sortToggle: false
         }
         this.toggle = this.toggle.bind(this);
     }
@@ -128,21 +129,24 @@ class Store extends Component {
             if(a.item > b.item) return 1
         })
         this.setState({
-            products: [...results]
+            products: [...results],
+            sortToggle: true
         })
     }
     sortFromLeast(){
         let arr = [...this.state.baseProducts]
         let results=arr.sort((a,b)=>a.price-b.price)
         this.setState({
-            products: [...results]
+            products: [...results],
+            sortToggle: true
         })
     }
     sortFromGreatest(){
         let arr = [...this.state.baseProducts]
         let results=arr.sort((a,b)=>b.price-a.price)
         this.setState({
-            products: [...results]
+            products: [...results],
+            sortToggle: true
         })
     }
     setproduct(i){
@@ -209,6 +213,13 @@ class Store extends Component {
         dropdownOpen: !prevState.dropdownOpen
         }));
     }
+    clear(){
+        let base = [...this.state.baseProducts]
+        this.setState({
+            products: [...base],
+            sortToggle: false
+        })
+    }
   render() {
     return (
         <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
@@ -252,6 +263,14 @@ class Store extends Component {
                     </DropdownMenu>
                 </Dropdown>
                 </div>
+                {
+                this.state.sortToggle ?
+                <div>
+                    <Button onClick={()=>this.clear()} color='primary'>Clear</Button>
+                </div>
+                :
+                null
+                }
                 {
                 this.state.toggle == 1 ?
                 <Button color='primary' style={{marginLeft: 'auto',height: '100%'}} onClick={()=> this.logout()}>logout</Button>
