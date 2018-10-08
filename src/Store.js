@@ -18,8 +18,12 @@ class Store extends Component {
             index: -1,
             alertToggle: false,
             alertInfo: "",
-            renderSet: 1
+            renderSet: 1,
+            searchVal: '',
+            baseProducts: [],
+            dropdownOpen: false
         }
+        this.toggle = this.toggle.bind(this);
     }
     componentDidMount(){
         this.setState({
@@ -35,7 +39,8 @@ class Store extends Component {
         axios.get("/api/products").then(res =>{
             console.log(res)
             this.setState({
-                products: res.data
+                products: res.data,
+                baseProducts: res.data
             })
         })
     }
@@ -109,7 +114,37 @@ class Store extends Component {
         }
         return items;
     }
-
+    filterProducts(){
+        let arr = [...this.state.baseProducts]
+        let results=arr.filter(val => val.item.toLowerCase().includes(this.state.searchVal.toLowerCase()))
+        this.setState({
+            products: [...results]
+        })
+    }
+    sortByAlphabet(){
+        let arr = [...this.state.baseProducts]
+        let results=arr.sort((a,b)=>{
+            if(a.item < b.item) return -1
+            if(a.item > b.item) return 1
+        })
+        this.setState({
+            products: [...results]
+        })
+    }
+    sortFromLeast(){
+        let arr = [...this.state.baseProducts]
+        let results=arr.sort((a,b)=>a.price-b.price)
+        this.setState({
+            products: [...results]
+        })
+    }
+    sortFromGreatest(){
+        let arr = [...this.state.baseProducts]
+        let results=arr.sort((a,b)=>b.price-a.price)
+        this.setState({
+            products: [...results]
+        })
+    }
     setproduct(i){
         if(i>=0)
         {
@@ -169,6 +204,11 @@ class Store extends Component {
     }
     return output
 }
+    toggle() {
+        this.setState(prevState => ({
+        dropdownOpen: !prevState.dropdownOpen
+        }));
+    }
   render() {
     return (
         <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
@@ -194,11 +234,23 @@ class Store extends Component {
                 </NavItem>\
                 <div>
                     <InputGroup>
-                    <Input placeholder="search products" />
+                    <Input onChange={e => this.setState({searchVal: e.target.value})} placeholder="search products" />
                         <InputGroupAddon addonType="append">
-                            <Button color='primary'>search</Button>
+                            <Button onClick={()=>this.filterProducts()} color='primary'>search</Button>
                         </InputGroupAddon>
                     </InputGroup>
+                </div>
+                <div>
+                <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                <DropdownToggle color='primary' caret>
+                    Sort by
+                </DropdownToggle>
+                    <DropdownMenu>
+                    <DropdownItem onClick={()=>this.sortByAlphabet()}>Alphabet</DropdownItem>
+                    <DropdownItem onClick={()=>this.sortFromLeast()}>Price(lowest)</DropdownItem>
+                    <DropdownItem onClick={()=>this.sortFromGreatest()}>Price(Highest)</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
                 </div>
                 {
                 this.state.toggle == 1 ?
