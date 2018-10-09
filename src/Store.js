@@ -293,9 +293,14 @@ class Store extends Component {
                 </div>
                 }
         </div>
+        {
+        this.state.toggleView ?
+        null
+        :
         <Pagination style={{display: 'flex', justifyContent: 'center'}} aria-label="Page navigation example">
                 {this.getNavigator()}
         </Pagination>
+        }
         <footer style={{height: '30px',marginTop: 'auto',position: 'abo' , backgroundColor: '#007bff', color: 'WHITE'}}>website by Adam</footer>
       </div>
     );            
