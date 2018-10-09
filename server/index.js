@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt');
 const session = require('express-session')
 const app = express()
 controller=require('./controller')
+const path = require('path');
+app.use( express.static( `${__dirname}/../build` ) );
 app.use(bodyparser.json());
 const {CONNECTION_STRING,SESSION_SECRET}=process.env;
 app.use(

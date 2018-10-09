@@ -215,10 +215,10 @@ export default class Cart extends Component {
         </Nav>
         <Nav tabs style={{backgroundColor: '007BFF', color: 'white'}}>
         <NavItem>
-            <NavLink href='http://localhost:3000/#/Login/'>Login</NavLink>
+        <Link to='/Login/'><NavLink >Login</NavLink></Link>
         </NavItem>
         <NavItem>
-            <NavLink href='http://localhost:3000/#/'>Home</NavLink>
+            <Link to='/'><NavLink >Home</NavLink></Link>
         </NavItem>
         <Button color='primary' style={{marginLeft: 'auto',height: '100%'}} onClick={()=> this.checkOut()}>checkout</Button>
         {

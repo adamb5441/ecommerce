@@ -77,10 +77,10 @@ export default class Form extends Component {
                 </Nav>
               <Nav tabs>
                   <NavItem>
-                      <NavLink href='http://localhost:3000/#/Login/'>Back</NavLink>
+                    <Link to='/Login/'><NavLink >Back</NavLink></Link>
                   </NavItem>
                   <NavItem>
-                      <NavLink href='http://localhost:3000/#/'>Home</NavLink>
+                      <Link to='/'><NavLink >Home</NavLink></Link>
                   </NavItem>
               </Nav>
         <div style={{display: 'flex',justifyContent: 'center'}}>

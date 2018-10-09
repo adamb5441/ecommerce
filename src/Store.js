@@ -238,10 +238,10 @@ class Store extends Component {
                 </Nav>
                 <Nav tabs style={{backgroundColor: '007BFF', color: 'white'}}>
                 <NavItem>
-                    <NavLink href='http://localhost:3000/#/Login/'>Login</NavLink>
+                    <Link to='/Login/'><NavLink >Login</NavLink></Link>
                 </NavItem>
                 <NavItem>
-                    <NavLink href='http://localhost:3000/#/Cart/'>Cart</NavLink>
+                    <Link to='/Cart/'><NavLink href='http://localhost:3000/#/Cart/'>Cart</NavLink></Link>
                 </NavItem>\
                 <div>
                     <InputGroup>

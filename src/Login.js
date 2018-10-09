@@ -71,10 +71,10 @@ export default class Login extends Component {
             </Nav>
             <Nav tabs>
                 <NavItem>
-                    <NavLink href='http://localhost:3000/#/Form/'>Create account</NavLink>
+                    <Link to='/Form/'><NavLink >Create account</NavLink></Link>
                 </NavItem>
                 <NavItem>
-                    <NavLink href='http://localhost:3000/#/'>Home</NavLink>
+                    <Link to='/'><NavLink href='http://localhost:3000/#/'>Home</NavLink></Link>
                 </NavItem>
             </Nav>
       <div style={{display: 'flex',justifyContent: 'center'}}>
