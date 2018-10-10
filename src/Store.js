@@ -27,12 +27,15 @@ class Store extends Component {
         this.toggle = this.toggle.bind(this);
     }
     componentDidMount(){
+        console.log(this.state.cart.length)
+        if(this.state.cart.length==0){
+            saveToLS("cart", [])
+        } else {
         this.setState({
             cart: JSON.parse(JSON.stringify(getFromLS("cart")))
         })
-        if(this.state.cart.length==0){
-            saveToLS("cart", [])
-        }
+    }
+
         axios.get('/api/checkSession').then(res=>{
             if(res.data){
             this.setState({
