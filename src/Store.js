@@ -241,7 +241,7 @@ class Store extends Component {
                     <Link to='/Login/'><NavLink >Login</NavLink></Link>
                 </NavItem>
                 <NavItem>
-                    <Link to='/Cart/'><NavLink href='http://localhost:3000/#/Cart/'>Cart</NavLink></Link>
+                    <Link to='/Cart/'><NavLink >Cart</NavLink></Link>
                 </NavItem>\
                 <div>
                     <InputGroup>
