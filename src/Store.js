@@ -30,6 +30,9 @@ class Store extends Component {
         this.setState({
             cart: JSON.parse(JSON.stringify(getFromLS("cart")))
         })
+        if(this.state.cart.length==0){
+            saveToLS("cart", [])
+        }
         axios.get('/api/checkSession').then(res=>{
             if(res.data){
             this.setState({
