@@ -243,7 +243,7 @@ class Store extends Component {
                     <img src='https://danielpaulmarshall.files.wordpress.com/2017/05/keyboard-warrior.png' style={{height: '40px'}}/>
                     <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
                     <NavItem style={{ marginLeft: 'auto', padding: '2px'}}>
-                    <Link to='/Cart/'><img style={{height: '2vh', marginLeft: 'auto'}} src={icon}/></Link>
+                    <Link to='/Cart/'><img style={{height: '25px', marginLeft: 'auto'}} src={icon}/></Link>
                     </NavItem>
                 </Nav>
                 <Nav tabs style={{backgroundColor: '007BFF', color: 'white'}}>
