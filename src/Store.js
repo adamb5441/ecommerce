@@ -7,6 +7,7 @@ import { Jumbotron,Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, Dropdow
 import { Link } from 'react-router-dom'
 import  Router  from './Router';
 import axios from 'axios'
+import icon from './img/cartIcon2.png'
 class Store extends Component {
     constructor(){
         super()
@@ -238,9 +239,12 @@ class Store extends Component {
                 null
                 }
             <div>
-                <Nav tabs className="navbar-light bg-primary " style={{padding: '2px' }}>
+                <Nav tabs className="navbar-light bg-primary " style={{padding: '2px', display: 'flex' }}>
                     <img src='https://danielpaulmarshall.files.wordpress.com/2017/05/keyboard-warrior.png' style={{height: '40px'}}/>
                     <NavbarBrand style={{color: 'white', marginLeft: '15px'}} href="/">The Keyboard Warrior</NavbarBrand>
+                    <NavItem style={{ marginLeft: 'auto', padding: '2px'}}>
+                    <Link to='/Cart/'><img style={{height: '2vh', marginLeft: 'auto'}} src={icon}/></Link>
+                    </NavItem>
                 </Nav>
                 <Nav tabs style={{backgroundColor: '007BFF', color: 'white'}}>
                 <NavItem>
