@@ -108,7 +108,6 @@ export default class Cart extends Component {
                     <div>
                         <CardImg src={img} alt="Card image cap" />
                         <CardBody>
-                        <CardTitle>Card title</CardTitle>
                         <CardSubtitle>{item}</CardSubtitle>
                         <CardText>${price}</CardText>
                         <div className='row' style={{ display: 'flex',alignItems: 'center',justifyContent: 'center'}}>
