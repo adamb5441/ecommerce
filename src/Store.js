@@ -29,7 +29,7 @@ class Store extends Component {
     }
     componentWillMount(){
         this.setState({
-            cart: JSON.parse(JSON.stringify(getFromLS("cart")))
+            cart: JSON.parse(getFromLS("cart"))
         })
         console.log(this.state.cart)
         if(!this.state.cart){
