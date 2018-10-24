@@ -33,6 +33,9 @@ class Store extends Component {
         })
         if(!this.state.cart.length){
             saveToLS("cart", [])
+            this.setState({
+                cart: []
+            })
         } 
     }
     componentDidMount(){
