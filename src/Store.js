@@ -34,7 +34,7 @@ class Store extends Component {
     }
     componentDidMount(){
         console.log(this.state.cart.length)
-        if(!this.state.cart.length){
+        if(this.state.cart.length==0){
             saveToLS("cart", [])
         } 
         axios.get('/api/checkSession').then(res=>{
