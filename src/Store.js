@@ -32,7 +32,7 @@ class Store extends Component {
             cart: JSON.parse(JSON.stringify(getFromLS("cart")))
         })
         if(!this.state.cart.length){
-            saveToLS("cart", [])
+            saveToLS("cart", [{}])
             this.setState({
                 cart: []
             })
