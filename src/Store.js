@@ -31,12 +31,12 @@ class Store extends Component {
         this.setState({
             cart: JSON.parse(JSON.stringify(getFromLS("cart")))
         })
-    }
-    componentDidMount(){
-        console.log(this.state.cart.length)
         if(this.state.cart.length==0){
             saveToLS("cart", [])
         } 
+    }
+    componentDidMount(){
+        console.log(this.state.cart.length)
         axios.get('/api/checkSession').then(res=>{
             if(res.data){
             this.setState({
