@@ -96,7 +96,7 @@ class Store extends Component {
     }
     }
     })
-    this.invokeAlert("The item has been added to you cart")
+    this.invokeAlert("The item has been added to your cart")
     } 
     getProducts(){ 
         let items = [];
