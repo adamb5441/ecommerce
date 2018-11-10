@@ -105,7 +105,7 @@ export default class Cart extends Component {
             
             items.push(
                 <Card className="col-sm-3 card " style={{margin: '20px', padding: '30px'}}>
-                    <div>
+                    <div key={cart_id}>
                         <CardImg src={img} alt="Card image cap" />
                         <CardBody>
                         <CardSubtitle>{item}</CardSubtitle>
