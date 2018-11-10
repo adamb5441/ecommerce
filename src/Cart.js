@@ -92,7 +92,7 @@ export default class Cart extends Component {
         })
     }
     updateCart(ref){
-        let num=this.state.userIn;
+        let num=Number(this.state.userIn);
         axios.put('/api/Cart/update', {num,ref}).then(res=>{
             this.update()
         })
@@ -179,7 +179,7 @@ export default class Cart extends Component {
         this.update()
     }
     updateLs(id){
-        let numberof=this.state.userIn;
+        let numberof=Number(this.state.userIn);
         let ind = this.state.cart.findIndex(val => val.ref == id)
         let arr = this.state.cart.slice(0)
         arr[ind].num=numberof
